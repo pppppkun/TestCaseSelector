@@ -1,0 +1,12 @@
+net\mooctest\CMD$NotFlagException.class
+net\mooctest\CMD$Option$StringOption.class
+net\mooctest\CMD$UnknownOptionException.class
+net\mooctest\CMD$Option$BooleanOption.class
+net\mooctest\CMD$Option$DoubleOption.class
+net\mooctest\CMD$OptionException.class
+net\mooctest\CMD$IllegalOptionValueException.class
+net\mooctest\CMD$Option$IntegerOption.class
+net\mooctest\CMD$UnknownSuboptionException.class
+net\mooctest\CMD$Option$LongOption.class
+net\mooctest\CMD$Option.class
+net\mooctest\CMD.class

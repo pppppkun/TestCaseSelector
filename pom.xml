@@ -35,11 +35,6 @@
             <version>1.5.4</version>
         </dependency>
         <dependency>
-            <groupId>com.ibm.wala</groupId>
-            <artifactId>com.ibm.wala.test</artifactId>
-            <version>1.5.4</version>
-        </dependency>
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13</version>

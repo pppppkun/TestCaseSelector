@@ -1,0 +1,9 @@
+net\mooctest\Variable.class
+net\mooctest\Program.class
+net\mooctest\Datalog.class
+net\mooctest\Fact.class
+net\mooctest\Value.class
+net\mooctest\Predicate.class
+net\mooctest\Substitution.class
+net\mooctest\Argument.class
+net\mooctest\Rule.class

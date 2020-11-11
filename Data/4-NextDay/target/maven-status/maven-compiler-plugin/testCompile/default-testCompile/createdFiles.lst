@@ -1,0 +1,6 @@
+net\mooctest\CalendarUnitTest.class
+net\mooctest\NextdayTest.class
+net\mooctest\YearTest.class
+net\mooctest\DateTest.class
+net\mooctest\DayTest.class
+net\mooctest\MonthTest.class

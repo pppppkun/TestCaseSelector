@@ -13,10 +13,6 @@ import java.util.HashSet;
  */
 public class SelectorTest {
 
-    /*8
-    "Data/0-CMD/Target/", "Data/0-CMD/data/change_info.txt"
-     */
-
     private void testHelper(String path, HashSet<String> result) {
         try{
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
@@ -53,10 +49,10 @@ public class SelectorTest {
     public void TestCMD(){
         //-c Data/1-ALU/Target/ Data/1-ALU/data/change_info.txt
         String[] args = new String[]{"-m", "Data/0-CMD/Target/", "Data/0-CMD/data/change_info.txt"};
-        HashSet<String> result = TestCaseSelect.TestMain(args);
+        HashSet<String> result = TestCaseSelect.realEntry(args);
         testHelper("Data/0-CMD/data/selection-method.txt", result);
         args[0] = "-c";
-        result = TestCaseSelect.TestMain(args);
+        result = TestCaseSelect.realEntry(args);
         testHelper("Data/0-CMD/data/selection-class.txt", result);
     }
 
@@ -64,10 +60,10 @@ public class SelectorTest {
     public void TestALU(){
         //-c Data/1-ALU/Target/ Data/1-ALU/data/change_info.txt
         String[] args = new String[]{"-m", "Data/1-ALU/Target/", "Data/1-ALU/data/change_info.txt"};
-        HashSet<String> result = TestCaseSelect.TestMain(args);
+        HashSet<String> result = TestCaseSelect.realEntry(args);
         testHelper("Data/1-ALU/data/selection-method.txt", result);
         args[0] = "-c";
-        result = TestCaseSelect.TestMain(args);
+        result = TestCaseSelect.realEntry(args);
         testHelper("Data/1-ALU/data/selection-class.txt", result);
     }
 
@@ -75,10 +71,10 @@ public class SelectorTest {
     public void TestDataLog(){
         //-c Data/1-ALU/Target/ Data/1-ALU/data/change_info.txt
         String[] args = new String[]{"-m", "Data/2-DataLog/Target/", "Data/2-DataLog/data/change_info.txt"};
-        HashSet<String> result = TestCaseSelect.TestMain(args);
+        HashSet<String> result = TestCaseSelect.realEntry(args);
         testHelper("Data/2-DataLog/data/selection-method.txt", result);
         args[0] = "-c";
-        result = TestCaseSelect.TestMain(args);
+        result = TestCaseSelect.realEntry(args);
         testHelper("Data/2-DataLog/data/selection-class.txt", result);
     }
 
@@ -86,10 +82,10 @@ public class SelectorTest {
     public void TestBinaryHeap(){
         //-c Data/1-ALU/Target/ Data/1-ALU/data/change_info.txt
         String[] args = new String[]{"-m", "Data/3-BinaryHeap/Target/", "Data/3-BinaryHeap/data/change_info.txt"};
-        HashSet<String> result = TestCaseSelect.TestMain(args);
+        HashSet<String> result = TestCaseSelect.realEntry(args);
         testHelper("Data/3-BinaryHeap/data/selection-method.txt", result);
         args[0] = "-c";
-        result = TestCaseSelect.TestMain(args);
+        result = TestCaseSelect.realEntry(args);
         testHelper("Data/3-BinaryHeap/data/selection-class.txt", result);
     }
 
@@ -97,10 +93,10 @@ public class SelectorTest {
     public void TestNextDay(){
         //-c Data/1-ALU/Target/ Data/1-ALU/data/change_info.txt
         String[] args = new String[]{"-m", "Data/4-NextDay/Target/", "Data/4-NextDay/data/change_info.txt"};
-        HashSet<String> result = TestCaseSelect.TestMain(args);
+        HashSet<String> result = TestCaseSelect.realEntry(args);
         testHelper("Data/4-NextDay/data/selection-method.txt", result);
         args[0] = "-c";
-        result = TestCaseSelect.TestMain(args);
+        result = TestCaseSelect.realEntry(args);
         testHelper("Data/4-NextDay/data/selection-class.txt", result);
     }
 
@@ -108,10 +104,10 @@ public class SelectorTest {
     public void TestNextMoreTriangle(){
         //-c Data/1-ALU/Target/ Data/1-ALU/data/change_info.txt
         String[] args = new String[]{"-m", "Data/5-MoreTriangle/Target/", "Data/5-MoreTriangle/data/change_info.txt"};
-        HashSet<String> result = TestCaseSelect.TestMain(args);
+        HashSet<String> result = TestCaseSelect.realEntry(args);
         testHelper("Data/5-MoreTriangle/data/selection-method.txt", result);
         args[0] = "-c";
-        result = TestCaseSelect.TestMain(args);
+        result = TestCaseSelect.realEntry(args);
         testHelper("Data/5-MoreTriangle/data/selection-class.txt", result);
     }
 
