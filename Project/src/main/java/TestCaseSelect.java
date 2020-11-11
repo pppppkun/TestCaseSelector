@@ -20,7 +20,13 @@ import java.util.*;
 public class TestCaseSelect {
 
     public static void main(String[] args) {
-        realEntry(args);
+        HashSet<String> result = realEntry(args);
+        assert result!=null;
+        StringBuilder stringBuilder = new StringBuilder();
+        for(String s : result){
+            stringBuilder.append(s+"\n");
+        }
+        writeFile(args[0].equals("-c") ? "selection-class.txt" : "selection-method.txt", stringBuilder.toString());
     }
 
     public static HashSet<String> realEntry(String[] args) {
@@ -51,6 +57,7 @@ public class TestCaseSelect {
 
     /**
      * 这个方法会对目标进行建模，并且生成.dot文件和被选择出的测试用例
+     *
      * @param args
      * @param changeMethods
      * @param flag
@@ -91,13 +98,18 @@ public class TestCaseSelect {
         HashMap<String, HashSet<String>> dot = new HashMap<>();
         getDot(graph, dot, flag);
 
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("digraph g {\n");
+
         for (String key : dot.keySet()) {
             for (String value : dot.get(key)) {
-                System.out.println(key + " -> " + value);
+                stringBuilder.append("\t"+key + " -> " + value+";\n");
             }
         }
+        stringBuilder.append("}");
+        writeFile(args[0].equals("-c") ? "class-"+args[1].split("/")[1]+".dot":"method-"+args[1].split("/")[1]+".dot", stringBuilder.toString());
 
-        for(String s : changeMethods){
+        for (String s : changeMethods) {
             findDependency(s, graph, result, flag, testGraph);
         }
 
@@ -106,6 +118,7 @@ public class TestCaseSelect {
 
     /**
      * 这个方法会从Scope中得到CallGraph，并且存到graph中
+     *
      * @param scope
      * @param graph
      * @param flag  flag == 0 -> Method     flag == 1 -> Class
@@ -131,7 +144,7 @@ public class TestCaseSelect {
                     String srcClassInnerName = method.getDeclaringClass().getName().toString();
                     String srcSignature = method.getSignature();
                     Node left = new Node(srcClassInnerName, srcSignature, CM);
-                    if(!graph.containsKey(left)) graph.put(left, new HashSet<>());
+                    if (!graph.containsKey(left)) graph.put(left, new HashSet<>());
                     //找到节点的所有后继
                     Iterator<CGNode> cgNodeIterator = cg.getPredNodes(node);
                     while (cgNodeIterator.hasNext()) {
@@ -154,6 +167,7 @@ public class TestCaseSelect {
 
     /**
      * 这个方法用来生成.dot文件
+     *
      * @param graph
      * @param Dot
      * @param flag  flag == 0 -> Method     flag == 1 -> Class
@@ -161,7 +175,7 @@ public class TestCaseSelect {
     private static void getDot(HashMap<Node, HashSet<Node>> graph, HashMap<String, HashSet<String>> Dot, int flag) {
         for (Node n : graph.keySet()) {
             String var1 = flag == 1 ? n.getClassInnerName() : n.getSignature();
-            if(!Dot.containsKey("\"" + var1 + "\"")) Dot.put("\"" + var1 + "\"", new HashSet<>());
+            if (!Dot.containsKey("\"" + var1 + "\"")) Dot.put("\"" + var1 + "\"", new HashSet<>());
             for (Node t : graph.get(n)) {
                 String var2 = flag == 1 ? t.getClassInnerName() : t.getSignature();
                 Dot.get("\"" + var1 + "\"").add("\"" + var2 + "\"");
@@ -171,38 +185,40 @@ public class TestCaseSelect {
 
     /**
      * 这个方法会根据change_info来提取出测试代码和源代码之间的依赖，使用广度优先遍历
-     * @param change 变化的语句
+     *
+     * @param change    变化的语句
      * @param graph
      * @param result
      * @param flag
      * @param testGraph
      */
-    private static void findDependency(String change, HashMap<Node, HashSet<Node>> graph, HashSet<String> result, int flag, HashMap<Node, HashSet<Node>> testGraph){
+    private static void findDependency(String change, HashMap<Node, HashSet<Node>> graph, HashSet<String> result, int flag, HashMap<Node, HashSet<Node>> testGraph) {
         Queue<Node> queue = new LinkedList<>();
-        for(Node key : graph.keySet()){
-            if(flag == 1){
-                if(key.getClassInnerName().equals(change)) {
+        for (Node key : graph.keySet()) {
+            if (flag == 1) {
+                if (key.getClassInnerName().equals(change)) {
                     queue.add(key);
                 }
-            }else{
-                 if(key.getSignature().equals(change)){
+            } else {
+                if (key.getSignature().equals(change)) {
                     queue.add(key);
                 }
             }
         }
         HashSet<Node> vis = new HashSet<>();
-        while(!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             Node head = queue.poll();
             //防止圈的出现
-            if(vis.contains(head)){
+            if (vis.contains(head)) {
                 continue;
             }
             vis.add(head);
-            if(graph.containsKey(head)){
+            if (graph.containsKey(head)) {
                 queue.addAll(graph.get(head));
-                for(Node node : graph.get(head)){
+                for (Node node : graph.get(head)) {
                     //只关心存在于测试代码里面的方法和非初始化方法
-                    if(testGraph.containsKey(node) && !node.WholeInfo().contains("<init>()V")) result.add(node.WholeInfo());
+                    if (testGraph.containsKey(node) && !node.WholeInfo().contains("<init>()V"))
+                        result.add(node.WholeInfo());
                 }
             }
         }
@@ -210,6 +226,7 @@ public class TestCaseSelect {
 
     /**
      * 提取出源代码文件和测试代码文件的路径，存在src和test里面
+     *
      * @param path
      * @param src
      * @param test
@@ -242,6 +259,7 @@ public class TestCaseSelect {
 
     /**
      * 添加目录下面的所有文件到ArrayList中
+     *
      * @param list
      * @param arrayList
      */
@@ -258,6 +276,16 @@ public class TestCaseSelect {
                     arrayList.add(f.getPath());
                 }
             }
+        }
+    }
+
+    private static void writeFile(String fileName, String data) {
+        try {
+            BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
+            out.write(data);
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
