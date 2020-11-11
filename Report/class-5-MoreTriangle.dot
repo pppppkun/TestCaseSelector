@@ -1,0 +1,16 @@
+digraph g {
+	"Lnet/mooctest/MoreTriangle" -> "Lnet/mooctest/MoreTriangle";
+	"Lnet/mooctest/MoreTriangle" -> "Lnet/mooctest/MoreTriangleTest";
+	"Lnet/mooctest/MoreTriangle" -> "Lnet/mooctest/AreaTest";
+	"Lnet/mooctest/MoreTriangle" -> "Lnet/mooctest/PerimeterTest";
+	"Lnet/mooctest/MoreTriangle" -> "Lnet/mooctest/InsideTest";
+	"Lnet/mooctest/Edge" -> "Lnet/mooctest/MoreTriangle";
+	"Lnet/mooctest/Edge" -> "Lnet/mooctest/AreaTest";
+	"Lnet/mooctest/Node" -> "Lnet/mooctest/MoreTriangle";
+	"Lnet/mooctest/Node" -> "Lnet/mooctest/VectorTest";
+	"Lnet/mooctest/Node" -> "Lnet/mooctest/PerimeterTest";
+	"Lnet/mooctest/Vector" -> "Lnet/mooctest/Edge";
+	"Lnet/mooctest/Vector" -> "Lnet/mooctest/Node";
+	"Lnet/mooctest/Vector" -> "Lnet/mooctest/VectorTest";
+	"Lnet/mooctest/Vector" -> "Lnet/mooctest/Vector";
+}

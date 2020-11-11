@@ -1,0 +1,9 @@
+digraph g {
+	"Lnet/mooctest/ALU" -> "Lnet/mooctest/ALUOtherTest2";
+	"Lnet/mooctest/ALU" -> "Lnet/mooctest/ALUAdderTest";
+	"Lnet/mooctest/ALU" -> "Lnet/mooctest/ALUGateTest";
+	"Lnet/mooctest/ALU" -> "Lnet/mooctest/ALUOtherTest1";
+	"Lnet/mooctest/ALU" -> "Lnet/mooctest/ALUFloatTest";
+	"Lnet/mooctest/ALU" -> "Lnet/mooctest/ALU";
+	"Lnet/mooctest/ALU" -> "Lnet/mooctest/ALUIntegerTest";
+}

@@ -1,0 +1,8 @@
+digraph g {
+	"Lnet/mooctest/BinaryHeap" -> "Lnet/mooctest/BinaryHeapForDeleteMinTest";
+	"Lnet/mooctest/BinaryHeap" -> "Lnet/mooctest/BinaryHeap";
+	"Lnet/mooctest/BinaryHeap" -> "Lnet/mooctest/BinaryHeapOtherTest";
+	"Lnet/mooctest/BinaryHeap" -> "Lnet/mooctest/BinaryHeapForIsEmptyTest";
+	"Lnet/mooctest/BinaryHeap" -> "Lnet/mooctest/BinaryHeapForFindMinTest";
+	"Lnet/mooctest/Overflow" -> "Lnet/mooctest/BinaryHeap";
+}
