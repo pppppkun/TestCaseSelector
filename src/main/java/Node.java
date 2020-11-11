@@ -1,3 +1,6 @@
+import com.ibm.wala.classLoader.ShrikeBTMethod;
+import com.ibm.wala.ipa.callgraph.CGNode;
+
 /**
  * @Author: pkun
  * @CreateTime: 2020-11-11 12:41
@@ -6,6 +9,7 @@
  */
 public class Node {
 
+    CGNode cgNode;
     String ClassInnerName;
     String Signature;
     // Class -> True
@@ -18,29 +22,21 @@ public class Node {
         this.CM = CM;
     }
 
-    public boolean isCM() {
-        return CM;
-    }
-
-    public void setCM(boolean CM) {
+    public Node(CGNode cgNode, boolean CM) {
+        this.cgNode = cgNode;
         this.CM = CM;
+        this.ClassInnerName = cgNode.getMethod().getDeclaringClass().getName().toString();
+        this.Signature = cgNode.getMethod().getSignature();
     }
 
     public String getClassInnerName() {
         return ClassInnerName;
     }
 
-    public void setClassInnerName(String classInnerName) {
-        ClassInnerName = classInnerName;
-    }
-
     public String getSignature() {
         return Signature;
     }
 
-    public void setSignature(String signature) {
-        Signature = signature;
-    }
 
     @Override
     public String toString() {
@@ -53,9 +49,7 @@ public class Node {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof Node)
-            return this.WholeInfo().equals(((Node) obj).WholeInfo());
-        else return super.equals(obj);
+        return cgNode.equals(obj);
     }
 
     public String WholeInfo(){
@@ -64,6 +58,6 @@ public class Node {
 
     @Override
     public int hashCode() {
-        return WholeInfo().hashCode();
+        return cgNode.hashCode();
     }
 }

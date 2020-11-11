@@ -26,7 +26,7 @@ public class TestCaseSelect {
         for(String s : result){
             stringBuilder.append(s+"\n");
         }
-        writeFile(args[0].equals("-c") ? "selection-class.txt" : "selection-method.txt", stringBuilder.toString());
+        FileUtils.writeFile(args[0].equals("-c") ? "selection-class.txt" : "selection-method.txt", stringBuilder.toString());
     }
 
     public static HashSet<String> realEntry(String[] args) {
@@ -70,7 +70,7 @@ public class TestCaseSelect {
     private static HashSet<String> Model(String args[], ArrayList<String> changeMethods, int flag) throws IOException, InvalidClassFileException, CancelException, WalaException {
         ArrayList<String> src = new ArrayList<>();
         ArrayList<String> test = new ArrayList<>();
-        folderFind(args[1], src, test);
+        FileUtils.folderFind(args[1], src, test);
         HashMap<Node, HashSet<Node>> graph = new HashMap<>();
 
         AnalysisScope scope = AnalysisScopeReader.readJavaScope("scope.txt", new File("exclusion.txt"), ClassLoader.getSystemClassLoader());
@@ -107,7 +107,7 @@ public class TestCaseSelect {
             }
         }
         stringBuilder.append("}");
-        writeFile(args[0].equals("-c") ? "class-"+args[1].split("/")[1]+".dot":"method-"+args[1].split("/")[1]+".dot", stringBuilder.toString());
+        FileUtils.writeFile(args[0].equals("-c") ? "class-"+args[1].split("/")[1]+".dot":"method-"+args[1].split("/")[1]+".dot", stringBuilder.toString());
 
         for (String s : changeMethods) {
             findDependency(s, graph, result, flag, testGraph);
@@ -221,71 +221,6 @@ public class TestCaseSelect {
                         result.add(node.WholeInfo());
                 }
             }
-        }
-    }
-
-    /**
-     * 提取出源代码文件和测试代码文件的路径，存在src和test里面
-     *
-     * @param path
-     * @param src
-     * @param test
-     */
-    private static void folderFind(String path, ArrayList<String> src, ArrayList<String> test) {
-        File file = new File(path);
-        if (file.exists()) {
-            if (null == file.listFiles()) {
-                return;
-            }
-            LinkedList<File> list = new LinkedList<>(Arrays.asList(file.listFiles()));
-            File t = null;
-            File s = null;
-            for (File file1 : list) {
-                if (file1.getName().equals("test-classes")) {
-                    t = file1;
-                }
-                if (file1.getName().equals("classes")) {
-                    s = file1;
-                }
-            }
-            list = new LinkedList<>(Arrays.asList(t.listFiles()));
-            addFilePath(list, test);
-            list = new LinkedList<>(Arrays.asList(s.listFiles()));
-            addFilePath(list, src);
-        } else {
-            System.out.println("文件不存在!");
-        }
-    }
-
-    /**
-     * 添加目录下面的所有文件到ArrayList中
-     *
-     * @param list
-     * @param arrayList
-     */
-    private static void addFilePath(LinkedList<File> list, ArrayList<String> arrayList) {
-        while (!list.isEmpty()) {
-            File[] files = list.removeFirst().listFiles();
-            if (null == files) {
-                continue;
-            }
-            for (File f : files) {
-                if (f.isDirectory()) {
-                    list.add(f);
-                } else {
-                    arrayList.add(f.getPath());
-                }
-            }
-        }
-    }
-
-    private static void writeFile(String fileName, String data) {
-        try {
-            BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
-            out.write(data);
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
