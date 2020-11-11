@@ -20,14 +20,12 @@ import java.util.*;
 public class CHAPredSelector implements Selector{
 
     AnalysisScope scope;
-    public HashMap<Node, HashSet<Node>> wholeGraph;
-    public HashMap<Node, HashSet<Node>> testGraph;
     public Boolean CM;
     CHACallGraph cg;
 
 
     @Override
-    public void makeGraph(HashMap<Node, HashSet<Node>> graph) {
+    public void FindDependency(HashMap<Node, HashSet<Node>> graph) {
         for (CGNode node : cg) {
             if (node.getMethod() instanceof ShrikeBTMethod) {
                 ShrikeBTMethod method = (ShrikeBTMethod) node.getMethod();
@@ -58,7 +56,7 @@ public class CHAPredSelector implements Selector{
     }
 
     @Override
-    public void findDependency(String change, HashMap<Node, HashSet<Node>> graph, HashSet<String> result, int flag, HashMap<Node, HashSet<Node>> testGraph) {
+    public void Selector(String change, HashMap<Node, HashSet<Node>> graph, HashSet<String> result, int flag, HashMap<Node, HashSet<Node>> testGraph) {
         Queue<Node> queue = new LinkedList<>();
         for (Node key : graph.keySet()) {
             if (flag == 1) {
@@ -100,7 +98,7 @@ public class CHAPredSelector implements Selector{
         }
     }
 
-    public void addScope(String path){
+    public void AddScope(String path){
         try{
             scope.addClassFileToScope(ClassLoaderReference.Application, new File(path));
         }catch (Exception e){
@@ -108,14 +106,14 @@ public class CHAPredSelector implements Selector{
         }
     }
 
-    public void makeCallGraph(){
+    public void MakeCallGraph(){
         try{
             ClassHierarchy cha = ClassHierarchyFactory.makeWithRoot(scope);
             Iterable<Entrypoint> eps = new AllApplicationEntrypoints(scope, cha);
-            CHACallGraph cg = new CHACallGraph(cha);
+            cg = new CHACallGraph(cha);
             cg.init(eps);
         }catch (Exception e){
-
+            e.printStackTrace();
         }
     }
 }

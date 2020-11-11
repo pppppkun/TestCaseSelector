@@ -25,18 +25,24 @@ public class Main {
         FileUtils.folderFind(args[1], src, test);
 
         for (String path : test) {
-            selector.addScope(path);
+            selector.AddScope(path);
         }
 
         HashMap<Node, HashSet<Node>> testGraph = new HashMap<>();
-        selector.makeGraph(testGraph);
+        selector.MakeCallGraph();
+        selector.FindDependency(testGraph);
 
         for (String path : src) {
-            selector.addScope(path);
+            selector.AddScope(path);
         }
         HashMap<Node, HashSet<Node>> graph = new HashMap<>();
+        selector.MakeCallGraph();
+        selector.FindDependency(graph);
 
-        selector.makeGraph(graph);
+        //        for (int i = 0; i < temp.size(); i++) {
+        //            changeMethods.add(temp.get(i).split(" ")[1 - flag]);
+        //            changeMethods.remove(0);
+        //        }
 
     }
 
