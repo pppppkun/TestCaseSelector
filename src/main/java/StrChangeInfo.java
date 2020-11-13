@@ -7,6 +7,7 @@ import java.util.HashSet;
 /**
  * @Author: pkun
  * @CreateTime: 2020-11-12 00:22
+ * 根据字符串来判断变更记录
  */
 public class StrChangeInfo implements ChangeInfo<String> {
 
@@ -14,6 +15,10 @@ public class StrChangeInfo implements ChangeInfo<String> {
     HashSet<String> methodChange = new HashSet<>();
 
 
+    /**
+     * 初始化
+     * @param path
+     */
     public StrChangeInfo(String path) {
         ArrayList<String> changeMethods = new ArrayList<>();
         try {

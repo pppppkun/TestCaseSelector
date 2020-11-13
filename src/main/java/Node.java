@@ -5,7 +5,7 @@ import com.ibm.wala.ipa.callgraph.CGNode;
  * @Author: pkun
  * @CreateTime: 2020-11-11 12:41
  *
- * This class present a node in CHACallGraph
+ * 相当于CGNode的代理类，使用ClassInnerName和签名联合判断两个节点是否相同
  */
 public class Node {
 

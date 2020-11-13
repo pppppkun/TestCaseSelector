@@ -15,7 +15,7 @@ import java.util.*;
 /**
  * @Author: pkun
  * @CreateTime: 2020-11-11 23:22
- * 使用节点的前继进行选择
+ * 使用节点的后继进行图生成和测试用例选择
  */
 public class CHAPredSelector implements Selector{
 
@@ -24,6 +24,10 @@ public class CHAPredSelector implements Selector{
     CHACallGraph cg;
 
 
+    /**
+     * graph是记录依赖的数据结构，调用这个方法前需要根据目前的Scope初始化一次CHA
+     * @param graph
+     */
     @Override
     public void FindDependency(HashMap<Node, HashSet<Node>> graph) {
         for (CGNode node : cg) {
@@ -31,8 +35,6 @@ public class CHAPredSelector implements Selector{
                 ShrikeBTMethod method = (ShrikeBTMethod) node.getMethod();
                 //只看和业务逻辑相关的代码，这里可以排除掉java/lang等一些自带的类库
                 if ("Application".equals(method.getDeclaringClass().getClassLoader().toString())) {
-                    String srcClassInnerName = method.getDeclaringClass().getName().toString();
-                    String srcSignature = method.getSignature();
                     Node left = new Node(node, CM);
                     if (!graph.containsKey(left)) graph.put(left, new HashSet<>());
                     //找到节点的所有后继
@@ -42,8 +44,6 @@ public class CHAPredSelector implements Selector{
                         if (dest.getMethod() instanceof ShrikeBTMethod) {
                             //和上面的if语句同理
                             if ("Application".equals(dest.getMethod().getDeclaringClass().getClassLoader().toString())) {
-                                String destClassInnerName = dest.getMethod().getDeclaringClass().getName().toString();
-                                String destSignature = dest.getMethod().getSignature();
                                 Node right = new Node(dest,  CM);
                                 //将新的边添加到图中
                                 graph.get(left).add(right);
@@ -55,6 +55,13 @@ public class CHAPredSelector implements Selector{
         }
     }
 
+    /**
+     * 真正的挑选用例的方法，Change是记录变化信息的，会根据具体的类和level，再加上传进去的Node来解析这个Node是否发生了变化，这样的好处是change的内部逻辑可以发生改变，但是不改变选择的代码
+     * @param change ChangeInfo记录类
+     * @param graph FindDependency生成的依赖图
+     * @param result 结果
+     * @param testGraph 测试依赖图
+     */
     @Override
     public void Selector(ChangeInfo change, HashMap<Node, HashSet<Node>> graph, HashSet<String> result, HashMap<Node, HashSet<Node>> testGraph) {
         Queue<Node> queue = new LinkedList<>();
@@ -90,6 +97,11 @@ public class CHAPredSelector implements Selector{
         }
     }
 
+    /**
+     * 增加Scope
+     * @param path
+     */
+    @Override
     public void AddScope(String path){
         try{
             scope.addClassFileToScope(ClassLoaderReference.Application, new File(path));
@@ -98,6 +110,10 @@ public class CHAPredSelector implements Selector{
         }
     }
 
+    /**
+     * 生成CallGraph
+     */
+    @Override
     public void MakeCallGraph(){
         try{
             ClassHierarchy cha = ClassHierarchyFactory.makeWithRoot(scope);
