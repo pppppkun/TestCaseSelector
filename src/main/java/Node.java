@@ -49,7 +49,7 @@ public class Node {
 
     @Override
     public boolean equals(Object obj) {
-        return cgNode.equals(obj);
+        return WholeInfo().equals(((Node) obj).WholeInfo());
     }
 
     public String WholeInfo(){
@@ -58,6 +58,6 @@ public class Node {
 
     @Override
     public int hashCode() {
-        return cgNode.hashCode();
+        return WholeInfo().hashCode();
     }
 }

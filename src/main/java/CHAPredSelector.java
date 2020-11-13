@@ -33,7 +33,7 @@ public class CHAPredSelector implements Selector{
                 if ("Application".equals(method.getDeclaringClass().getClassLoader().toString())) {
                     String srcClassInnerName = method.getDeclaringClass().getName().toString();
                     String srcSignature = method.getSignature();
-                    Node left = new Node(srcClassInnerName, srcSignature, CM);
+                    Node left = new Node(node, CM);
                     if (!graph.containsKey(left)) graph.put(left, new HashSet<>());
                     //找到节点的所有后继
                     Iterator<CGNode> cgNodeIterator = cg.getPredNodes(node);
@@ -44,7 +44,7 @@ public class CHAPredSelector implements Selector{
                             if ("Application".equals(dest.getMethod().getDeclaringClass().getClassLoader().toString())) {
                                 String destClassInnerName = dest.getMethod().getDeclaringClass().getName().toString();
                                 String destSignature = dest.getMethod().getSignature();
-                                Node right = new Node(destClassInnerName, destSignature, CM);
+                                Node right = new Node(dest,  CM);
                                 //将新的边添加到图中
                                 graph.get(left).add(right);
                             }
@@ -56,18 +56,10 @@ public class CHAPredSelector implements Selector{
     }
 
     @Override
-    public void Selector(String change, HashMap<Node, HashSet<Node>> graph, HashSet<String> result, int flag, HashMap<Node, HashSet<Node>> testGraph) {
+    public void Selector(ChangeInfo change, HashMap<Node, HashSet<Node>> graph, HashSet<String> result, HashMap<Node, HashSet<Node>> testGraph) {
         Queue<Node> queue = new LinkedList<>();
         for (Node key : graph.keySet()) {
-            if (flag == 1) {
-                if (key.getClassInnerName().equals(change)) {
-                    queue.add(key);
-                }
-            } else {
-                if (key.getSignature().equals(change)) {
-                    queue.add(key);
-                }
-            }
+            if(change.IsChange(key, CM)) queue.add(key);
         }
         HashSet<Node> vis = new HashSet<>();
         while (!queue.isEmpty()) {

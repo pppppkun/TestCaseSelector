@@ -8,7 +8,7 @@ import java.util.HashSet;
 public interface Selector {
 
     void FindDependency(HashMap<Node, HashSet<Node>> graph);
-    void Selector(String change, HashMap<Node, HashSet<Node>> graph, HashSet<String> result, int flag, HashMap<Node, HashSet<Node>> testGraph);
+    void Selector(ChangeInfo change, HashMap<Node, HashSet<Node>> graph, HashSet<String> result, HashMap<Node, HashSet<Node>> testGraph);
     void init(boolean CM);
     void AddScope(String path);
     void MakeCallGraph();
