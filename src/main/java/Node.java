@@ -1,6 +1,8 @@
 import com.ibm.wala.classLoader.ShrikeBTMethod;
 import com.ibm.wala.ipa.callgraph.CGNode;
 
+import java.lang.annotation.Annotation;
+
 /**
  * @Author: pkun
  * @CreateTime: 2020-11-11 12:41
@@ -60,4 +62,9 @@ public class Node {
     public int hashCode() {
         return WholeInfo().hashCode();
     }
+
+    public boolean IsTest(){
+        return cgNode.getMethod().getAnnotations().toString().contains("Test");
+    }
+
 }

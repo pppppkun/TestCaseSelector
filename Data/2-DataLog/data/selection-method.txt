@@ -10,3 +10,4 @@ Lnet/mooctest/DatalogTest net.mooctest.DatalogTest.toFact()V
 Lnet/mooctest/DatalogTest1 net.mooctest.DatalogTest1.testDatalog2()V
 Lnet/mooctest/DatalogTest1 net.mooctest.DatalogTest1.testDatalogGets()V
 Lnet/mooctest/DatalogOtherTest net.mooctest.DatalogOtherTest.testPredicate()V
+

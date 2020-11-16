@@ -78,10 +78,24 @@ public class CHAPredSelector implements Selector{
             vis.add(head);
             if (graph.containsKey(head)) {
                 queue.addAll(graph.get(head));
-                for (Node node : graph.get(head)) {
-                    //只关心存在于测试代码里面的方法和非初始化方法
-                    if (testGraph.containsKey(node) && !node.WholeInfo().contains("<init>()V"))
-                        result.add(node.WholeInfo());
+                if(CM){
+                    for (Node node : graph.get(head)) {
+                        //只关心存在于测试代码里面的方法和非初始化方法
+                        if (testGraph.containsKey(node)){
+                            for(Node node1 : testGraph.keySet()){
+                                if(node.getClassInnerName().equals(node1.getClassInnerName()) && node1.IsTest()){
+                                    result.add(node1.WholeInfo());
+                                }
+                            }
+                        }
+                    }
+                }
+                else{
+                    for (Node node : graph.get(head)) {
+                        //只关心存在于测试代码里面的方法和非初始化方法
+                        if (testGraph.containsKey(node) && node.IsTest())
+                            result.add(node.WholeInfo());
+                    }
                 }
             }
         }

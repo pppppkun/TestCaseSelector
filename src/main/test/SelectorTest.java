@@ -37,7 +37,6 @@ public class SelectorTest {
                     }
                 }
             }
-
             Assert.assertEquals(result.size(), except.size());
 
         }catch (Exception e){
